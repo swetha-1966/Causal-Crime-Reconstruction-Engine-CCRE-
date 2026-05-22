@@ -1,0 +1,13 @@
+{
+  "logs": [
+    {"event": "traffic_surge", "time": "2024-12-11T13:00:00", "user": "botnet", "resource": "edge_router", "metadata": {"pps": 5000000}},
+    {"event": "cpu_spike", "time": "2024-12-11T13:05:00", "user": "system", "resource": "load_balancer", "metadata": {"utilization": "99%"}},
+    {"event": "error_503", "time": "2024-12-11T13:10:00", "user": "real_users", "resource": "web_portal", "metadata": {"impact": "service_unavailable"}},
+    {"event": "automated_mitigation", "time": "2024-12-11T13:15:00", "user": "system", "resource": "waf", "metadata": {"action": "ip_blocking_on"}}
+  ],
+  "ground_truth_edges": [
+    ["traffic_surge", "cpu_spike"],
+    ["cpu_spike", "error_503"],
+    ["error_503", "automated_mitigation"]
+  ]
+}

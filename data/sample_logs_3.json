@@ -1,0 +1,71 @@
+{
+  "logs": [
+    {
+      "event": "login",
+      "time": "2024-12-08T23:45:00",
+      "user": "m.chen@corp.net",
+      "resource": "vpn_gateway",
+      "metadata": {
+        "src_ip": "98.42.115.7",
+        "geo_location": "Home - San Jose, CA",
+        "login_method": "sso_credential",
+        "time_of_day": "after_hours",
+        "device": "personal_laptop"
+      }
+    },
+    {
+      "event": "unusual_access_pattern",
+      "time": "2024-12-08T23:52:00",
+      "user": "m.chen@corp.net",
+      "resource": "sharepoint_portal",
+      "metadata": {
+        "normal_department": "engineering",
+        "accessed_departments": ["legal", "finance", "executive"],
+        "access_frequency": "abnormally_high",
+        "files_browsed": 340
+      }
+    },
+    {
+      "event": "data_access",
+      "time": "2024-12-09T00:05:00",
+      "user": "m.chen@corp.net",
+      "resource": "confidential_repository",
+      "metadata": {
+        "classification": "restricted",
+        "folder": "/legal/mergers-acquisitions/project-phoenix",
+        "files_opened": 47,
+        "data_type": "financial_projections"
+      }
+    },
+    {
+      "event": "large_download",
+      "time": "2024-12-09T00:15:00",
+      "user": "m.chen@corp.net",
+      "resource": "confidential_repository",
+      "metadata": {
+        "data_volume_mb": 1850,
+        "file_count": 215,
+        "download_method": "bulk_zip",
+        "file_types": [".pdf", ".xlsx", ".pptx", ".docx"]
+      }
+    },
+    {
+      "event": "data_exfiltration",
+      "time": "2024-12-09T00:30:00",
+      "user": "m.chen@corp.net",
+      "resource": "cloud_storage",
+      "metadata": {
+        "dest_service": "personal_google_drive",
+        "data_volume_mb": 1850,
+        "exfil_method": "cloud_sync",
+        "dlp_alert": "bypassed_via_browser_upload"
+      }
+    }
+  ],
+  "ground_truth_edges": [
+    ["login", "unusual_access_pattern"],
+    ["unusual_access_pattern", "data_access"],
+    ["data_access", "large_download"],
+    ["large_download", "data_exfiltration"]
+  ]
+}

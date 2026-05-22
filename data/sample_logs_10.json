@@ -1,0 +1,13 @@
+{
+  "logs": [
+    {"event": "file_access", "time": "2024-12-03T09:00:00", "user": "j.doe", "resource": "finance_share", "metadata": {"action": "read_all"}},
+    {"event": "clipboard_copy", "time": "2024-12-03T09:15:00", "user": "j.doe", "resource": "local_machine", "metadata": {"size": "huge"}},
+    {"event": "usb_inserted", "time": "2024-12-03T09:20:00", "user": "j.doe", "resource": "workstation-05", "metadata": {"device_id": "Kingston_64GB"}},
+    {"event": "file_write", "time": "2024-12-03T09:25:00", "user": "j.doe", "resource": "E:/backup.zip", "metadata": {"compressed": true}}
+  ],
+  "ground_truth_edges": [
+    ["file_access", "clipboard_copy"],
+    ["clipboard_copy", "file_write"],
+    ["usb_inserted", "file_write"]
+  ]
+}

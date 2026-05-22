@@ -1,0 +1,93 @@
+{
+  "logs": [
+    {
+      "event": "phishing_email",
+      "time": "2024-11-12T10:00:00",
+      "user": "victim@company.com",
+      "resource": "email_inbox",
+      "metadata": {
+        "sender": "attacker@malicious.com",
+        "subject": "Urgent: Reset your password",
+        "has_link": true,
+        "email_client": "Outlook"
+      }
+    },
+    {
+      "event": "link_clicked",
+      "time": "2024-11-12T10:05:00",
+      "user": "victim@company.com",
+      "resource": "malicious_url",
+      "metadata": {
+        "url": "https://fake-login.attacker.com/reset",
+        "browser": "Chrome 120",
+        "src_ip": "192.168.1.45"
+      }
+    },
+    {
+      "event": "credential_theft",
+      "time": "2024-11-12T10:06:00",
+      "user": "victim@company.com",
+      "resource": "credentials_db",
+      "metadata": {
+        "method": "fake_login_form",
+        "credentials_captured": true,
+        "credential_type": "password"
+      }
+    },
+    {
+      "event": "login",
+      "time": "2024-11-12T10:10:00",
+      "user": "victim@company.com",
+      "resource": "corporate_vpn",
+      "metadata": {
+        "src_ip": "203.0.113.42",
+        "geo_location": "Eastern Europe",
+        "login_method": "stolen_credentials",
+        "mfa_bypassed": true
+      }
+    },
+    {
+      "event": "privilege_escalation",
+      "time": "2024-11-12T10:15:00",
+      "user": "victim@company.com",
+      "resource": "active_directory",
+      "metadata": {
+        "from_role": "standard_user",
+        "to_role": "domain_admin",
+        "exploit": "CVE-2024-1234",
+        "tool_used": "mimikatz"
+      }
+    },
+    {
+      "event": "data_access",
+      "time": "2024-11-12T10:22:00",
+      "user": "victim@company.com",
+      "resource": "file_server",
+      "metadata": {
+        "files_accessed": 1547,
+        "data_classification": "confidential",
+        "departments_accessed": ["finance", "hr", "engineering"]
+      }
+    },
+    {
+      "event": "data_exfiltration",
+      "time": "2024-11-12T10:30:00",
+      "user": "victim@company.com",
+      "resource": "file_server",
+      "metadata": {
+        "data_volume_mb": 2340,
+        "exfil_method": "encrypted_tunnel",
+        "dest_ip": "203.0.113.99",
+        "protocol": "HTTPS"
+      }
+    }
+  ],
+  "ground_truth_edges": [
+    ["phishing_email", "link_clicked"],
+    ["link_clicked", "credential_theft"],
+    ["credential_theft", "login"],
+    ["login", "privilege_escalation"],
+    ["privilege_escalation", "data_access"],
+    ["data_access", "data_exfiltration"]
+  ]
+}

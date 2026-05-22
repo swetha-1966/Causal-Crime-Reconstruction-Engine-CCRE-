@@ -1,0 +1,129 @@
+[
+  {
+    "event": "pattern_phishing_exfil",
+    "name": "Phishing to Data Exfiltration",
+    "description": "Classic spear-phishing attack chain leading to data exfiltration via credential theft and privilege escalation.",
+    "attack_type": "phishing",
+    "severity": "critical",
+    "sequence": [
+      "phishing_email",
+      "link_clicked",
+      "credential_theft",
+      "login",
+      "privilege_escalation",
+      "data_access",
+      "data_exfiltration"
+    ],
+    "text": "A phishing email was sent containing a malicious link. The victim clicked the link which led to credential theft via a fake login form. The attacker used stolen credentials to log in, escalated privileges to admin, accessed sensitive data, and exfiltrated it through an encrypted tunnel."
+  },
+  {
+    "event": "pattern_brute_force_lateral",
+    "name": "Brute Force to Lateral Movement",
+    "description": "Brute-force attack on exposed service leading to lateral movement across the network.",
+    "attack_type": "brute_force",
+    "severity": "high",
+    "sequence": [
+      "port_scan",
+      "brute_force_attempt",
+      "login",
+      "lateral_movement",
+      "privilege_escalation",
+      "data_access"
+    ],
+    "text": "An attacker performed a port scan to identify open services, followed by brute force authentication attempts. After successfully logging in, the attacker moved laterally across the network, escalated privileges, and accessed sensitive data."
+  },
+  {
+    "event": "pattern_insider_threat",
+    "name": "Insider Threat Data Theft",
+    "description": "Malicious insider accessing and exfiltrating sensitive data using legitimate credentials.",
+    "attack_type": "insider_threat",
+    "severity": "critical",
+    "sequence": [
+      "login",
+      "unusual_access_pattern",
+      "data_access",
+      "large_download",
+      "data_exfiltration"
+    ],
+    "text": "An insider logged in using legitimate credentials during off-hours, accessed files outside their normal scope, downloaded large volumes of data, and exfiltrated it to an external destination."
+  },
+  {
+    "event": "pattern_ransomware",
+    "name": "Ransomware Deployment Chain",
+    "description": "Multi-stage ransomware attack from initial access to encryption and ransom demand.",
+    "attack_type": "ransomware",
+    "severity": "critical",
+    "sequence": [
+      "phishing_email",
+      "malware_download",
+      "code_execution",
+      "privilege_escalation",
+      "lateral_movement",
+      "ransomware_deployed"
+    ],
+    "text": "A phishing email delivered a malware payload. Upon execution, the malware escalated privileges, moved laterally across systems, and deployed ransomware encrypting critical data across the network."
+  },
+  {
+    "event": "pattern_supply_chain",
+    "name": "Supply Chain Compromise",
+    "description": "Attack via compromised third-party software update or dependency.",
+    "attack_type": "supply_chain",
+    "severity": "critical",
+    "sequence": [
+      "software_update",
+      "malware_download",
+      "backdoor_installed",
+      "command_and_control",
+      "data_access",
+      "data_exfiltration"
+    ],
+    "text": "A compromised software update introduced malware that installed a backdoor. The attacker established command and control communication, accessed sensitive data, and exfiltrated it."
+  },
+  {
+    "event": "pattern_credential_stuffing",
+    "name": "Credential Stuffing Attack",
+    "description": "Automated credential stuffing using leaked databases leading to account takeover.",
+    "attack_type": "credential_stuffing",
+    "severity": "high",
+    "sequence": [
+      "credential_stuffing",
+      "login",
+      "account_takeover",
+      "data_access",
+      "data_exfiltration"
+    ],
+    "text": "An attacker used leaked credential databases to perform automated login attempts. After successfully compromising an account, they took it over, accessed sensitive data, and exfiltrated it."
+  },
+  {
+    "event": "pattern_watering_hole",
+    "name": "Watering Hole Attack",
+    "description": "Compromise of a trusted website to target specific users with drive-by downloads.",
+    "attack_type": "watering_hole",
+    "severity": "high",
+    "sequence": [
+      "website_compromised",
+      "drive_by_download",
+      "code_execution",
+      "credential_theft",
+      "login",
+      "data_access"
+    ],
+    "text": "A frequently visited website was compromised to serve malicious content. When the target visited, a drive-by download executed code that stole credentials, enabling unauthorized access to sensitive data."
+  },
+  {
+    "event": "pattern_zero_day_exploit",
+    "name": "Zero-Day Exploitation",
+    "description": "Exploitation of an unknown vulnerability for initial access and system compromise.",
+    "attack_type": "zero_day",
+    "severity": "critical",
+    "sequence": [
+      "vulnerability_scan",
+      "exploit_attempt",
+      "code_execution",
+      "privilege_escalation",
+      "backdoor_installed",
+      "data_exfiltration"
+    ],
+    "text": "An attacker scanned for vulnerabilities and exploited a zero-day flaw. This allowed arbitrary code execution, privilege escalation, and installation of a persistent backdoor for ongoing data exfiltration."
+  }
+]

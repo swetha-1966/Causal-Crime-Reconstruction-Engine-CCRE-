@@ -1,0 +1,13 @@
+{
+  "logs": [
+    {"event": "email_received", "time": "2024-12-10T11:00:00", "user": "finance_mgr", "resource": "outlook", "metadata": {"attachment": "annual_bonus.docx"}},
+    {"event": "file_opened", "time": "2024-12-10T11:05:00", "user": "finance_mgr", "resource": "winword.exe", "metadata": {"filename": "annual_bonus.docx"}},
+    {"event": "macro_execution", "time": "2024-12-10T11:05:30", "user": "finance_mgr", "resource": "wscript.exe", "metadata": {"obfuscated": true}},
+    {"event": "reverse_shell", "time": "2024-12-10T11:10:00", "user": "finance_mgr", "resource": "192.168.1.100", "metadata": {"port": 4444}}
+  ],
+  "ground_truth_edges": [
+    ["email_received", "file_opened"],
+    ["file_opened", "macro_execution"],
+    ["macro_execution", "reverse_shell"]
+  ]
+}

@@ -1,0 +1,51 @@
+[
+  {
+    "id": "learned_5060",
+    "name": "Learned: phishing",
+    "description": "Pattern learned from analyzed incident",
+    "attack_type": "phishing",
+    "severity": "medium",
+    "sequence": [
+      "phishing_email",
+      "link_clicked",
+      "credential_theft",
+      "login",
+      "privilege_escalation",
+      "data_exfiltration"
+    ],
+    "text": "phishing email then link clicked then credential theft then login then privilege escalation then data exfiltration"
+  },
+  {
+    "id": "learned_740",
+    "name": "Learned: phishing",
+    "description": "Pattern learned from analyzed incident",
+    "attack_type": "phishing",
+    "severity": "medium",
+    "sequence": [
+      "device_boot",
+      "unauthorized_login",
+      "malware_download",
+      "botnet_join",
+      "ddos_attack"
+    ],
+    "text": "device boot then unauthorized login then malware download then botnet join then ddos attack"
+  },
+  {
+    "id": "learned_9264",
+    "name": "Learned: phishing",
+    "description": "Pattern learned from analyzed incident",
+    "attack_type": "phishing",
+    "severity": "medium",
+    "sequence": [
+      "device_boot",
+      "unauthorized_login",
+      "malware_download",
+      "malware_execution",
+      "command_control_connect",
+      "botnet_join",
+      "ddos_command_received",
+      "ddos_attack"
+    ],
+    "text": "device boot then unauthorized login then malware download then malware execution then command control connect then botnet join then ddos command received then ddos attack"
+  }
+]

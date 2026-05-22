@@ -1,0 +1,149 @@
+MITRE ATT&CK Framework — Cyber Threat Intelligence Knowledge Base
+=================================================================
+
+--- T1566: Phishing ---
+Adversaries may send phishing messages to gain access to victim systems. All forms of phishing are electronically delivered social engineering. Phishing can be targeted, known as spearphishing. In spearphishing, a specific individual, company, or industry will be targeted by the adversary. Spearphishing emails may contain malicious attachments or links. Common payloads include macro-enabled Office documents, executable files disguised as documents, and HTML files with embedded JavaScript.
+
+Spearphishing attachments typically use social engineering themes such as urgent password resets, invoice notifications, package delivery alerts, or HR policy updates. The attacker crafts the email to appear legitimate, often spoofing internal sender addresses or mimicking trusted external services. Once the user opens the attachment or clicks the link, malware is downloaded or credentials are harvested.
+
+Defense: Deploy email filtering with attachment sandboxing, URL rewriting, and DMARC/DKIM/SPF enforcement. Conduct regular phishing awareness training. Implement phishing-resistant MFA such as FIDO2 hardware keys.
+
+--- T1078: Valid Accounts ---
+Adversaries may obtain and abuse credentials of existing accounts as a means of gaining Initial Access, Persistence, Privilege Escalation, or Defense Evasion. Compromised credentials may be used to bypass access controls placed on various resources. Credential sources include credential dumping, keylogging, brute force attacks, credential stuffing from leaked databases, and social engineering.
+
+Attackers using valid accounts are difficult to detect because their actions appear as legitimate user behavior. They may log in via VPN, SSH, RDP, or web portals using stolen credentials. Indicators include logins from unusual geographic locations, logins at unusual times, and access to resources outside the user's normal scope.
+
+Defense: Enforce MFA on all remote access points. Implement conditional access policies based on device compliance, location, and risk score. Monitor for impossible travel alerts and credential abuse patterns.
+
+--- T1110: Brute Force ---
+Adversaries may use brute force techniques to gain access to accounts when passwords are unknown or when password hashes are obtained. Techniques include password guessing, password spraying (trying common passwords across many accounts), and credential stuffing (using leaked username/password pairs from data breaches).
+
+Brute force attacks often target externally facing services such as SSH (port 22), RDP (port 3389), SMB (port 445), and web login portals. Attackers may use tools like Hydra, Medusa, or custom scripts. High-volume login attempts from a single IP or distributed IPs using Tor exit nodes are common indicators.
+
+Defense: Implement account lockout policies, rate limiting, CAPTCHA on login forms, and IP-based blocking. Monitor authentication logs for high-volume failed login attempts. Use behavioral analytics to detect credential stuffing patterns.
+
+--- T1068: Exploitation for Privilege Escalation ---
+Adversaries may exploit software vulnerabilities in an attempt to elevate privileges. Exploitation of a software vulnerability occurs when an adversary takes advantage of a programming error in a program, service, or within the operating system software or kernel itself to execute adversary-controlled code.
+
+Common privilege escalation exploits include kernel vulnerabilities (Dirty Pipe, Dirty COW), service misconfigurations, SUID/SGID binaries, unquoted service paths on Windows, DLL hijacking, and token impersonation. Tools such as Mimikatz, PrintSpoofer, and JuicyPotato are frequently used for Windows privilege escalation.
+
+Defense: Apply security patches promptly. Implement least privilege principles. Use application whitelisting. Monitor for unusual process creation chains and privilege changes.
+
+--- T1059: Command and Scripting Interpreter ---
+Adversaries may abuse command and script interpreters to execute commands, scripts, or binaries. Common interpreters include PowerShell, Windows Command Shell (cmd.exe), Unix shells (bash, sh, zsh), Python, VBScript, and JavaScript.
+
+PowerShell is frequently abused for fileless malware execution, using techniques like Invoke-Expression (IEX), encoded commands, and download cradles such as IEX(New-Object Net.WebClient).DownloadString(). On Linux, attackers use bash reverse shells, cron job persistence, and script-based C2 beacons.
+
+Defense: Enable PowerShell script block logging and constrained language mode. Restrict script execution policies. Monitor for encoded commands, suspicious process trees (e.g., EXCEL.EXE spawning powershell.exe), and unusual interpreter usage.
+
+--- T1003: OS Credential Dumping ---
+Adversaries may attempt to dump credentials to obtain account login and credential material, normally in the form of a hash or a clear text password, from the operating system and software. Credentials can then be used to perform Lateral Movement and access restricted information.
+
+Tools like Mimikatz can extract NTLM hashes, Kerberos tickets, and plaintext passwords from LSASS process memory. Other techniques include dumping the SAM database, extracting credentials from the Windows Credential Manager, and harvesting SSH keys from user home directories.
+
+Defense: Enable Credential Guard on Windows. Restrict debug privileges. Implement Protected Users security group. Monitor for LSASS access by unusual processes. Deploy EDR solutions that detect credential dumping behavior.
+
+--- T1071: Application Layer Protocol (C2) ---
+Adversaries may communicate using application layer protocols to avoid detection and network filtering. Command and control (C2) communications may use HTTP, HTTPS, DNS, or other protocols that blend with normal network traffic.
+
+DNS-based C2 uses encoded data in DNS queries and responses (DNS tunneling) to exfiltrate data or receive commands. HTTPS-based C2 may use legitimate cloud services (Azure, AWS, Google) as proxies. Beacon intervals typically range from seconds to hours, with jitter to avoid pattern detection.
+
+Defense: Implement DNS monitoring and anomaly detection. Use TLS inspection at network boundaries. Monitor for unusual DNS query volumes, long domain names, and connections to newly registered domains. Deploy network detection tools that identify C2 beacon patterns.
+
+--- T1486: Data Encrypted for Impact (Ransomware) ---
+Adversaries may encrypt data on target systems to interrupt availability. Ransomware families such as LockBit, Conti, REvil, BlackCat, and Ryuk encrypt files using AES-256 or ChaCha20 algorithms, often with RSA-2048 key wrapping. Ransom notes demand cryptocurrency payment for decryption keys.
+
+Ransomware deployment typically follows a multi-stage attack: initial access via phishing or exploitation, followed by reconnaissance, privilege escalation, lateral movement to maximize impact, disabling of security tools and backups, and finally simultaneous encryption across all compromised systems.
+
+Defense: Maintain offline backups. Implement network segmentation. Deploy endpoint detection and response (EDR). Restrict administrative access. Use application control to prevent unauthorized executables.
+
+--- T1048: Exfiltration Over Alternative Protocol ---
+Adversaries may steal data by exfiltrating it over a different protocol than the existing command and control channel. Alternative protocols include FTP, SFTP, SCP, DNS tunneling, HTTPS to cloud storage, email forwarding, or even steganography in image files.
+
+Data exfiltration indicators include large outbound data transfers to unknown IPs, unusual upload activity to cloud storage services (Google Drive, Dropbox, OneDrive), bulk email forwarding rules, and data compression or encryption before transfer.
+
+Defense: Implement Data Loss Prevention (DLP) policies. Monitor egress traffic volumes. Block unauthorized cloud storage access. Inspect encrypted traffic at network boundaries. Alert on bulk file access followed by network transfers.
+
+--- T1041: Exfiltration Over C2 Channel ---
+Adversaries may steal data by exfiltrating it over an existing command and control channel. This uses the same connection established for C2 communication, making it harder to detect as a separate data flow. Data is often compressed and encrypted before exfiltration.
+
+The exfiltration may occur in small chunks over extended periods (low-and-slow) to avoid triggering volume-based alerts, or in a single large transfer during off-hours when monitoring may be reduced.
+
+Defense: Monitor C2 channel bandwidth usage. Implement session-based traffic analysis. Deploy UEBA to detect unusual data access followed by network activity.
+
+--- T1195: Supply Chain Compromise ---
+Adversaries may manipulate products or product delivery mechanisms prior to receipt by a final consumer for the purpose of data or system compromise. Examples include the SolarWinds SUNBURST attack, Codecov bash uploader compromise, and malicious npm/PyPI packages.
+
+Supply chain attacks target the trust relationship between organizations and their software vendors. By compromising a widely-used software update mechanism, attackers can distribute malware to thousands of organizations simultaneously. The trojanized update appears legitimate because it is signed with the vendor's code signing certificate.
+
+Defense: Verify software integrity using cryptographic hashes. Implement software composition analysis (SCA). Monitor for unexpected changes in software update behavior. Use vendor risk management programs.
+
+--- T1189: Drive-By Compromise ---
+Adversaries may gain access to a system through a user visiting a website over the normal course of browsing. The user's web browser is typically targeted for exploitation through watering hole attacks, where a frequently visited website is compromised to serve malicious content.
+
+Drive-by downloads exploit browser vulnerabilities, plugin vulnerabilities (Flash, Java), or use social engineering to trick users into downloading malware. Exploit kits like RIG, Magnitude, and Fallout automate the process of identifying vulnerable browsers and delivering appropriate exploits.
+
+Defense: Keep browsers and plugins updated. Use browser isolation technology. Implement web content filtering. Deploy endpoint protection with exploit prevention capabilities.
+
+--- T1190: Exploit Public-Facing Application ---
+Adversaries may attempt to take advantage of a weakness in an Internet-facing computer or program using software, data, or commands in order to cause unintended behavior. Common targets include web servers (Apache, Nginx, IIS), web application frameworks (Struts, Spring, Django), CMS platforms (WordPress, Drupal), and API endpoints.
+
+Exploitation often involves SQL injection, remote code execution (RCE), server-side request forgery (SSRF), deserialization vulnerabilities, or path traversal attacks. Zero-day exploits targeting unpatched vulnerabilities are particularly dangerous.
+
+Defense: Implement a Web Application Firewall (WAF). Apply security patches promptly. Conduct regular vulnerability assessments and penetration testing. Use runtime application self-protection (RASP).
+
+--- T1570: Lateral Tool Transfer ---
+Adversaries may transfer tools or files between systems in a compromised environment. This is commonly achieved through SMB/Windows file shares, SSH/SCP, PowerShell remoting, WMI, PsExec, or RDP mapped drives.
+
+Lateral movement allows attackers to expand their foothold within a network, moving from initially compromised workstations to servers containing valuable data. Common patterns include workstation-to-domain controller movement, IT admin workstation targeting, and database server access.
+
+Defense: Implement network micro-segmentation. Monitor internal file transfers. Restrict SMB traffic between workstations. Use privileged access workstations (PAWs) for administrative tasks.
+
+--- T1098: Account Manipulation ---
+Adversaries may manipulate accounts to maintain access to victim systems. Account manipulation may involve modifying credentials, modifying permissions, adding accounts to privileged groups, or creating new accounts. In cloud environments, this includes modifying IAM policies, adding OAuth application permissions, or creating service principals.
+
+Account takeover indicators include password changes from unusual locations, recovery email modifications, MFA method changes, and new device registrations. Attackers often add their own MFA device or change the recovery email to maintain persistent access.
+
+Defense: Monitor account modification events. Implement approval workflows for privilege changes. Use Privileged Identity Management (PIM) with just-in-time access. Alert on credential changes from unusual sources.
+
+--- T1562: Impair Defenses ---
+Adversaries may maliciously modify components of a victim environment in order to hinder or disable defensive mechanisms. This includes disabling security tools, modifying firewall rules, stopping logging services, or tampering with EDR agents.
+
+Common techniques include stopping Windows Defender service, unloading Sysmon drivers, clearing event logs, disabling PowerShell logging, and killing EDR processes. Attackers may use legitimate admin tools to avoid detection.
+
+Defense: Implement tamper protection on security tools. Monitor for security service stops and configuration changes. Use centralized logging that cannot be modified by local administrators.
+
+--- Insider Threat Patterns ---
+Insider threats involve current or former employees, contractors, or business associates who have authorized access to organizational resources. Malicious insiders may steal intellectual property, customer data, or trade secrets for personal gain, competitive advantage, or espionage.
+
+Behavioral indicators include accessing files outside normal job scope, bulk downloading sensitive documents, accessing systems during unusual hours, using personal storage devices or cloud accounts for data transfer, and showing signs of dissatisfaction or impending departure.
+
+Defense: Implement UEBA (User and Entity Behavior Analytics). Deploy DLP policies. Monitor for bulk file access and unusual data transfers. Conduct exit interviews and revoke access promptly upon termination.
+
+--- Credential Stuffing Attack Patterns ---
+Credential stuffing attacks use automated tools to test large volumes of stolen username/password pairs (obtained from data breaches) against target authentication systems. Unlike brute force, credential stuffing uses known-valid credentials from other sites, exploiting password reuse.
+
+Attack indicators include high-volume login attempts from distributed IPs (often Tor exit nodes or residential proxies), low success rate (typically 0.1-2%), and successful logins followed by immediate account changes. Tools like Sentry MBA, STORM, and custom Python scripts are commonly used.
+
+Defense: Implement credential breach monitoring. Enforce unique password requirements. Deploy bot detection and CAPTCHA on login forms. Use risk-based authentication that challenges suspicious login attempts.
+
+--- Zero-Day Exploitation Patterns ---
+Zero-day vulnerabilities are previously unknown security flaws that have no available patch at the time of exploitation. Attackers discover and exploit these vulnerabilities before the vendor is aware, giving defenders zero days to prepare.
+
+Zero-day attacks typically begin with vulnerability reconnaissance using custom scanners, followed by exploit development and delivery. The exploit may target browsers, operating systems, network devices, or application software. Advanced persistent threat (APT) groups often stockpile zero-day exploits for high-value targets.
+
+Defense: Deploy behavioral-based detection (not signature-based). Implement virtual patching via WAF/IPS. Use exploit prevention technologies. Maintain robust incident response capabilities. Implement defense-in-depth strategies.
+
+--- Watering Hole Attack Patterns ---
+Watering hole attacks compromise websites frequently visited by a targeted group of users. The attacker identifies websites commonly used by employees of the target organization, then injects malicious code (often JavaScript) that redirects visitors to an exploit server.
+
+The injected code may profile visitors to selectively target specific organizations or browser configurations, delivering exploits only to intended victims. This selective targeting makes watering hole attacks harder to detect than broad-based attacks.
+
+Defense: Monitor DNS and web traffic for unusual redirects. Implement browser isolation for high-risk browsing. Keep browsers and plugins updated. Use threat intelligence feeds to identify compromised websites.
+
+--- Attack Chain Analysis Methodology ---
+Cyber attack reconstruction follows the kill chain model: Reconnaissance → Initial Access → Execution → Persistence → Privilege Escalation → Defense Evasion → Credential Access → Discovery → Lateral Movement → Collection → Exfiltration → Impact.
+
+When analyzing an incident, each observed event should be mapped to a kill chain phase. Causal relationships between events should be established based on temporal proximity (events close in time are more likely related), resource correlation (events affecting the same system), user correlation (events involving the same account), and logical attack progression (e.g., credential theft logically precedes unauthorized login).
+
+A well-constructed causal graph connects initial access to final impact through a chain of intermediate steps. Missing steps in the chain may indicate gaps in logging coverage or attacker operational security.

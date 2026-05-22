@@ -1,0 +1,87 @@
+{
+  "logs": [
+    {
+      "event": "vulnerability_scan",
+      "time": "2024-12-18T01:00:00",
+      "user": "unknown_external",
+      "resource": "web_application_server",
+      "metadata": {
+        "src_ip": "91.215.85.33",
+        "tool": "custom_scanner",
+        "targets_scanned": 15,
+        "vulnerabilities_found": 3,
+        "focus": "apache_struts"
+      }
+    },
+    {
+      "event": "exploit_attempt",
+      "time": "2024-12-18T01:20:00",
+      "user": "unknown_external",
+      "resource": "web_application_server",
+      "metadata": {
+        "src_ip": "91.215.85.33",
+        "cve": "CVE-2024-0001",
+        "exploit_type": "remote_code_execution",
+        "target_service": "Apache Struts 2.5.30",
+        "payload": "reverse_shell"
+      }
+    },
+    {
+      "event": "code_execution",
+      "time": "2024-12-18T01:21:00",
+      "user": "www-data",
+      "resource": "web_application_server",
+      "metadata": {
+        "process": "/bin/bash",
+        "parent_process": "java",
+        "reverse_shell_dest": "91.215.85.33:4444",
+        "user_context": "www-data"
+      }
+    },
+    {
+      "event": "privilege_escalation",
+      "time": "2024-12-18T01:30:00",
+      "user": "www-data",
+      "resource": "web_application_server",
+      "metadata": {
+        "from_role": "www-data",
+        "to_role": "root",
+        "exploit": "CVE-2024-0002",
+        "method": "dirty_pipe_variant",
+        "kernel_version": "5.15.0"
+      }
+    },
+    {
+      "event": "backdoor_installed",
+      "time": "2024-12-18T01:35:00",
+      "user": "root",
+      "resource": "web_application_server",
+      "metadata": {
+        "backdoor_type": "ssh_authorized_keys",
+        "persistence": "cron_job",
+        "cron_schedule": "*/5 * * * *",
+        "beacon_script": "/tmp/.cache/.update.sh"
+      }
+    },
+    {
+      "event": "data_exfiltration",
+      "time": "2024-12-18T02:00:00",
+      "user": "root",
+      "resource": "web_application_server",
+      "metadata": {
+        "data_volume_mb": 320,
+        "dest_ip": "91.215.85.33",
+        "exfil_method": "scp_over_ssh",
+        "data_type": "application_database_dump",
+        "tables": ["users", "sessions", "api_keys"]
+      }
+    }
+  ],
+  "ground_truth_edges": [
+    ["vulnerability_scan", "exploit_attempt"],
+    ["exploit_attempt", "code_execution"],
+    ["code_execution", "privilege_escalation"],
+    ["privilege_escalation", "backdoor_installed"],
+    ["backdoor_installed", "data_exfiltration"]
+  ]
+}

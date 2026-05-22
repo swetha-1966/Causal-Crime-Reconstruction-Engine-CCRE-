@@ -1,0 +1,13 @@
+{
+  "logs": [
+    {"event": "update_started", "time": "2024-12-07T04:00:00", "user": "system", "resource": "monitoring_agent", "metadata": {"source": "official_repo"}},
+    {"event": "unexpected_child_process", "time": "2024-12-07T04:05:00", "user": "system", "resource": "cmd.exe", "metadata": {"cmd": "net user /add hacker"}},
+    {"event": "persistence_created", "time": "2024-12-07T04:10:00", "user": "system", "resource": "registry_hklm", "metadata": {"key": "RunOnce", "val": "hacker.exe"}},
+    {"event": "privileged_login", "time": "2024-12-07T04:30:00", "user": "hacker", "resource": "domain_controller", "metadata": {"status": "success"}}
+  ],
+  "ground_truth_edges": [
+    ["update_started", "unexpected_child_process"],
+    ["unexpected_child_process", "persistence_created"],
+    ["persistence_created", "privileged_login"]
+  ]
+}

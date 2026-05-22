@@ -1,0 +1,13 @@
+{
+  "logs": [
+    {"event": "initial_access", "time": "2024-12-08T20:00:00", "user": "hr-02", "resource": "workstation-4", "metadata": {"method": "macro_exec"}},
+    {"event": "task_scheduled", "time": "2024-12-08T20:10:00", "user": "hr-02", "resource": "schtasks.exe", "metadata": {"name": "WindowsUpdateChecker", "trigger": "at_logon"}},
+    {"event": "task_triggered", "time": "2024-12-09T08:00:00", "user": "system", "resource": "svchost.exe", "metadata": {"runs": "backdoor.ps1"}},
+    {"event": "c2_connection", "time": "2024-12-09T08:05:00", "user": "system", "resource": "c2-server.net", "metadata": {"status": "connected"}}
+  ],
+  "ground_truth_edges": [
+    ["initial_access", "task_scheduled"],
+    ["task_scheduled", "task_triggered"],
+    ["task_triggered", "c2_connection"]
+  ]
+}

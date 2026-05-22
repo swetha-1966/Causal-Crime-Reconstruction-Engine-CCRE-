@@ -1,0 +1,13 @@
+{
+  "logs": [
+    {"event": "ssrf_attack", "time": "2024-12-06T10:00:00", "user": "anonymous", "resource": "webapp", "metadata": {"target": "169.254.169.254"}},
+    {"event": "metadata_access", "time": "2024-12-06T10:00:05", "user": "webapp-role", "resource": "iam_credentials", "metadata": {"token_retrieved": true}},
+    {"event": "s3_enumeration", "time": "2024-12-06T10:15:00", "user": "webapp-role", "resource": "aws_s3", "metadata": {"buckets_listed": 42}},
+    {"event": "s3_data_copy", "time": "2024-12-06T10:30:00", "user": "webapp-role", "resource": "customer-data-bucket", "metadata": {"objects": 1500}}
+  ],
+  "ground_truth_edges": [
+    ["ssrf_attack", "metadata_access"],
+    ["metadata_access", "s3_enumeration"],
+    ["s3_enumeration", "s3_data_copy"]
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "logs": [
+    {
+      "event": "credential_stuffing",
+      "time": "2024-12-20T14:00:00",
+      "user": "multiple_accounts",
+      "resource": "web_login_portal",
+      "metadata": {
+        "src_ips": ["185.220.101.1", "185.220.101.2", "185.220.101.3"],
+        "total_attempts": 15000,
+        "unique_usernames": 8500,
+        "credential_source": "leaked_database_2024",
+        "proxy": "tor_exit_nodes"
+      }
+    },
+    {
+      "event": "login",
+      "time": "2024-12-20T14:12:00",
+      "user": "r.thompson@corp.net",
+      "resource": "web_login_portal",
+      "metadata": {
+        "src_ip": "185.220.101.2",
+        "login_method": "reused_password",
+        "account_type": "employee",
+        "mfa_enabled": false,
+        "success_rate": "0.3%"
+      }
+    },
+    {
+      "event": "account_takeover",
+      "time": "2024-12-20T14:15:00",
+      "user": "r.thompson@corp.net",
+      "resource": "user_account",
+      "metadata": {
+        "password_changed": true,
+        "recovery_email_changed": true,
+        "mfa_added_by_attacker": true,
+        "new_recovery_email": "anon@protonmail.com"
+      }
+    },
+    {
+      "event": "data_access",
+      "time": "2024-12-20T14:25:00",
+      "user": "r.thompson@corp.net",
+      "resource": "crm_system",
+      "metadata": {
+        "records_accessed": 45000,
+        "data_type": "customer_pii",
+        "fields": ["name", "email", "phone", "address", "ssn_last4"],
+        "api_calls": 850
+      }
+    },
+    {
+      "event": "data_exfiltration",
+      "time": "2024-12-20T14:40:00",
+      "user": "r.thompson@corp.net",
+      "resource": "crm_system",
+      "metadata": {
+        "data_volume_mb": 125,
+        "exfil_method": "api_export",
+        "dest_ip": "185.220.101.50",
+        "format": "csv_export",
+        "records_exported": 45000
+      }
+    }
+  ],
+  "ground_truth_edges": [
+    ["credential_stuffing", "login"],
+    ["login", "account_takeover"],
+    ["account_takeover", "data_access"],
+    ["data_access", "data_exfiltration"]
+  ]
+}

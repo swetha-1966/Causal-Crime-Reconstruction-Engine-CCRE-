@@ -1,0 +1,13 @@
+{
+  "logs": [
+    {"event": "download_started", "time": "2024-12-05T16:00:00", "user": "sales-01", "resource": "internet", "metadata": {"filename": "invoice_update.exe"}},
+    {"event": "process_started", "time": "2024-12-05T16:01:00", "user": "sales-01", "resource": "workstation-12", "metadata": {"process": "invoice_update.exe", "integrity": "medium"}},
+    {"event": "network_connection", "time": "2024-12-05T16:02:00", "user": "sales-01", "resource": "99.88.77.66:443", "metadata": {"type": "encrypted_beacon"}},
+    {"event": "shell_spawned", "time": "2024-12-05T16:10:00", "user": "system", "resource": "powershell.exe", "metadata": {"parent": "invoice_update.exe"}}
+  ],
+  "ground_truth_edges": [
+    ["download_started", "process_started"],
+    ["process_started", "network_connection"],
+    ["network_connection", "shell_spawned"]
+  ]
+}

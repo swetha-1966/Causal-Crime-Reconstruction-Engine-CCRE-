@@ -1,0 +1,13 @@
+{
+  "logs": [
+    {"event": "web_request", "time": "2024-12-02T14:00:00", "user": "guest", "resource": "login.php", "metadata": {"payload": "' OR 1=1--"}},
+    {"event": "database_query", "time": "2024-12-02T14:00:05", "user": "webapp_svc", "resource": "users_db", "metadata": {"query": "SELECT * FROM users"}},
+    {"event": "data_dump", "time": "2024-12-02T14:10:00", "user": "webapp_svc", "resource": "users_db", "metadata": {"rows": 50000, "destination": "tmp/dump.csv"}},
+    {"event": "file_transfer", "time": "2024-12-02T14:20:00", "user": "webapp_svc", "resource": "external_ip", "metadata": {"file": "dump.csv", "size_mb": 450}}
+  ],
+  "ground_truth_edges": [
+    ["web_request", "database_query"],
+    ["database_query", "data_dump"],
+    ["data_dump", "file_transfer"]
+  ]
+}

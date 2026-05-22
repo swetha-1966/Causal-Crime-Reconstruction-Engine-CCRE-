@@ -1,0 +1,86 @@
+{
+  "logs": [
+    {
+      "event": "software_update",
+      "time": "2024-12-10T03:00:00",
+      "user": "system_auto_update",
+      "resource": "build_server",
+      "metadata": {
+        "package": "solarwinds-orion",
+        "version": "2024.4.1",
+        "update_source": "vendor_cdn",
+        "signature_valid": true,
+        "compromised": true
+      }
+    },
+    {
+      "event": "malware_download",
+      "time": "2024-12-10T03:02:00",
+      "user": "system_auto_update",
+      "resource": "build_server",
+      "metadata": {
+        "payload": "SUNBURST_variant",
+        "delivery_method": "trojanized_dll",
+        "file": "SolarWinds.Orion.Core.BusinessLayer.dll",
+        "hash": "b91ce2fa41029f6955bff20079468448"
+      }
+    },
+    {
+      "event": "backdoor_installed",
+      "time": "2024-12-10T03:05:00",
+      "user": "system_auto_update",
+      "resource": "build_server",
+      "metadata": {
+        "backdoor_type": "dll_sideloading",
+        "persistence": "windows_service",
+        "service_name": "SolarWindsOrionMonitoring",
+        "stealth_mechanism": "process_hollowing"
+      }
+    },
+    {
+      "event": "command_and_control",
+      "time": "2024-12-10T04:30:00",
+      "user": "system_auto_update",
+      "resource": "c2_server",
+      "metadata": {
+        "dest_ip": "185.243.115.12",
+        "protocol": "HTTPS",
+        "c2_domain": "avsvmcloud.com",
+        "beacon_interval_min": 30,
+        "dns_based": true
+      }
+    },
+    {
+      "event": "data_access",
+      "time": "2024-12-10T06:00:00",
+      "user": "system_auto_update",
+      "resource": "email_server",
+      "metadata": {
+        "target": "exchange_server",
+        "mailboxes_accessed": ["ceo@corp.net", "cfo@corp.net", "cto@corp.net"],
+        "method": "token_forging",
+        "emails_read": 2800
+      }
+    },
+    {
+      "event": "data_exfiltration",
+      "time": "2024-12-10T07:15:00",
+      "user": "system_auto_update",
+      "resource": "email_server",
+      "metadata": {
+        "data_volume_mb": 680,
+        "exfil_method": "https_c2_channel",
+        "dest_ip": "185.243.115.12",
+        "data_type": "executive_emails",
+        "compression": "encrypted_archive"
+      }
+    }
+  ],
+  "ground_truth_edges": [
+    ["software_update", "malware_download"],
+    ["malware_download", "backdoor_installed"],
+    ["backdoor_installed", "command_and_control"],
+    ["command_and_control", "data_access"],
+    ["data_access", "data_exfiltration"]
+  ]
+}

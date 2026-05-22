@@ -1,0 +1,84 @@
+{
+  "logs": [
+    {
+      "event": "website_compromised",
+      "time": "2024-12-14T08:00:00",
+      "user": "unknown_attacker",
+      "resource": "industry-news.example.com",
+      "metadata": {
+        "injection_type": "javascript_redirect",
+        "affected_pages": ["/articles/latest", "/resources/tools"],
+        "exploit_kit": "RIG_EK",
+        "days_active_before_detection": 5
+      }
+    },
+    {
+      "event": "drive_by_download",
+      "time": "2024-12-14T09:20:00",
+      "user": "k.patel@corp.net",
+      "resource": "workstation_ws-107",
+      "metadata": {
+        "url_visited": "https://industry-news.example.com/articles/latest",
+        "browser": "Firefox 121",
+        "exploit_type": "browser_vulnerability",
+        "cve": "CVE-2024-9876",
+        "payload_delivered": true
+      }
+    },
+    {
+      "event": "code_execution",
+      "time": "2024-12-14T09:21:00",
+      "user": "k.patel@corp.net",
+      "resource": "workstation_ws-107",
+      "metadata": {
+        "process": "rundll32.exe",
+        "parent_process": "firefox.exe",
+        "payload": "stage1_loader.dll",
+        "execution_method": "reflective_dll_injection"
+      }
+    },
+    {
+      "event": "credential_theft",
+      "time": "2024-12-14T09:25:00",
+      "user": "k.patel@corp.net",
+      "resource": "workstation_ws-107",
+      "metadata": {
+        "tool": "mimikatz",
+        "credentials_harvested": 3,
+        "types": ["ntlm_hash", "kerberos_ticket"],
+        "target_accounts": ["k.patel", "svc_backup", "admin_local"]
+      }
+    },
+    {
+      "event": "login",
+      "time": "2024-12-14T09:30:00",
+      "user": "svc_backup",
+      "resource": "domain_controller",
+      "metadata": {
+        "src_ip": "10.2.1.107",
+        "login_method": "pass_the_hash",
+        "account_type": "service_account",
+        "privileges": "domain_admin"
+      }
+    },
+    {
+      "event": "data_access",
+      "time": "2024-12-14T09:45:00",
+      "user": "svc_backup",
+      "resource": "research_database",
+      "metadata": {
+        "database": "rd_intellectual_property",
+        "tables_accessed": ["patents", "prototypes", "trade_secrets"],
+        "records_read": 12000,
+        "data_classification": "top_secret"
+      }
+    }
+  ],
+  "ground_truth_edges": [
+    ["website_compromised", "drive_by_download"],
+    ["drive_by_download", "code_execution"],
+    ["code_execution", "credential_theft"],
+    ["credential_theft", "login"],
+    ["login", "data_access"]
+  ]
+}

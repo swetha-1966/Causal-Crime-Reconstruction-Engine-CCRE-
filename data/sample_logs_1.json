@@ -1,0 +1,98 @@
+{
+  "logs": [
+    {
+      "event": "port_scan",
+      "time": "2024-11-15T02:00:00",
+      "user": "unknown_external",
+      "resource": "perimeter_firewall",
+      "metadata": {
+        "src_ip": "45.12.33.21",
+        "dest_ip": "10.0.0.0/24",
+        "ports_scanned": 1024,
+        "protocol": "TCP",
+        "tool": "nmap"
+      }
+    },
+    {
+      "event": "brute_force_attempt",
+      "time": "2024-11-15T02:15:00",
+      "user": "unknown_external",
+      "resource": "ssh_server",
+      "metadata": {
+        "src_ip": "45.12.33.21",
+        "dest_ip": "10.0.0.5",
+        "target_port": 22,
+        "attempts": 4500,
+        "method": "dictionary_attack"
+      }
+    },
+    {
+      "event": "login",
+      "time": "2024-11-15T02:28:00",
+      "user": "svc_deploy",
+      "resource": "ssh_server",
+      "metadata": {
+        "src_ip": "45.12.33.21",
+        "dest_ip": "10.0.0.5",
+        "login_method": "password",
+        "account_type": "service_account",
+        "auth_success": true
+      }
+    },
+    {
+      "event": "lateral_movement",
+      "time": "2024-11-15T02:35:00",
+      "user": "svc_deploy",
+      "resource": "internal_network",
+      "metadata": {
+        "src_ip": "10.0.0.5",
+        "dest_ip": "10.0.0.12",
+        "method": "ssh_pivoting",
+        "hosts_reached": 3
+      }
+    },
+    {
+      "event": "privilege_escalation",
+      "time": "2024-11-15T02:42:00",
+      "user": "svc_deploy",
+      "resource": "linux_server",
+      "metadata": {
+        "from_role": "service_account",
+        "to_role": "root",
+        "exploit": "CVE-2024-5678",
+        "method": "kernel_exploit"
+      }
+    },
+    {
+      "event": "data_access",
+      "time": "2024-11-15T02:55:00",
+      "user": "svc_deploy",
+      "resource": "database_server",
+      "metadata": {
+        "database": "customer_records",
+        "tables_accessed": ["users", "payment_info", "addresses"],
+        "records_queried": 85000
+      }
+    },
+    {
+      "event": "data_exfiltration",
+      "time": "2024-11-15T03:10:00",
+      "user": "svc_deploy",
+      "resource": "database_server",
+      "metadata": {
+        "data_volume_mb": 450,
+        "dest_ip": "45.12.33.99",
+        "exfil_method": "dns_tunneling",
+        "protocol": "DNS"
+      }
+    }
+  ],
+  "ground_truth_edges": [
+    ["port_scan", "brute_force_attempt"],
+    ["brute_force_attempt", "login"],
+    ["login", "lateral_movement"],
+    ["lateral_movement", "privilege_escalation"],
+    ["privilege_escalation", "data_access"],
+    ["data_access", "data_exfiltration"]
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "logs": [
+    {"event": "failed_login", "time": "2024-12-04T11:00:00", "user": "multiple", "resource": "office365", "metadata": {"count": 450, "src_ip": "103.22.11.5"}},
+    {"event": "successful_login", "time": "2024-12-04T11:05:00", "user": "ceo@company.com", "resource": "office365", "metadata": {"src_ip": "103.22.11.5"}},
+    {"event": "inbox_rule_created", "time": "2024-12-04T11:10:00", "user": "ceo@company.com", "resource": "outlook_web", "metadata": {"rule_name": "ClearLogs", "action": "ForwardAndMoveToTrash"}},
+    {"event": "email_forwarded", "time": "2024-12-04T11:15:00", "user": "ceo@company.com", "resource": "external_email", "metadata": {"to": "hacker@evil.com"}}
+  ],
+  "ground_truth_edges": [
+    ["failed_login", "successful_login"],
+    ["successful_login", "inbox_rule_created"],
+    ["inbox_rule_created", "email_forwarded"]
+  ]
+}
